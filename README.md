@@ -71,3 +71,4 @@ You will need to adjust your default security group for your EC2 instance
   ```vagrant ssh -- -L 5900:localhost:5900 -i key.pem``` where
   ```key.pem``` is the path of your EC2 key pair file.
 * Start a local VNC viewer and connect to ```localhost```
+* Log in as the user "vnc" with the password "password".
