@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
   # some recipes and/or roles.
 
   # Un-comment this to update portage during provisioning.  Good to run this at least once.  Slow.
-  # config.vm.provision :shell, :inline => "apt-get update --fix-missing"
+  config.vm.provision :shell, :inline => "apt-get update --fix-missing"
 
   config.vm.provider :aws do |aws, override|
     override.vm.box = "dummy"
@@ -74,29 +74,29 @@ Vagrant.configure("2") do |config|
     aws.instance_type = "t2.medium"
     aws.block_device_mapping = [{ 'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 100 }]
   end
-#
-#   # User: vnc  Password: password
-#   config.vm.provision :shell, :inline => "adduser --disabled-login --gecos '' vnc"
-#   config.vm.provision :shell, :inline => "echo 'vnc:password'| chpasswd"
-#
-#   config.vm.provision :shell, :inline =>
-#     "apt-get install -y --no-install-recommends lubuntu-desktop tightvncserver"
-#
-# $script = <<SCRIPT
-# cat > /etc/lightdm/lightdm.conf <<EOF
-# [VNCServer]
-# enabled=true
-# port=5900
-# width=1366
-# height=768
-# depth=24
-# [SeatDefaults]
-# greeter-hide-users=true
-# allow-guest=false
-# greeter-show-manual-login=true
-# EOF
-# SCRIPT
-#   config.vm.provision :shell, :inline => $script
+
+  # User: vnc  Password: password
+  config.vm.provision :shell, :inline => "adduser --disabled-login --gecos '' vnc"
+  config.vm.provision :shell, :inline => "echo 'vnc:password'| chpasswd"
+
+  config.vm.provision :shell, :inline =>
+    "apt-get install -y --no-install-recommends lubuntu-desktop tightvncserver"
+
+$script = <<SCRIPT
+cat > /etc/lightdm/lightdm.conf <<EOF
+[VNCServer]
+enabled=true
+port=5900
+width=1366
+height=768
+depth=24
+[SeatDefaults]
+greeter-hide-users=true
+allow-guest=false
+greeter-show-manual-login=true
+EOF
+SCRIPT
+  config.vm.provision :shell, :inline => $script
 
   config.vm.provision :shell, :privileged => false, :inline =>
     "sudo /etc/init.d/lightdm stop; true"
